@@ -19,6 +19,9 @@
 		#further-info-card,#further-info-form {
 			display: none;
 		}
+		#thankyou-div {
+			display: none;
+		}
 		</style>
 	</head>
 	<body class='container'>
@@ -173,6 +176,9 @@
 				</div>
 			</form>
 		</div>
+		<div id="thankyou-div">
+			<iframe src="https://giphy.com/embed/3oEdva9BUHPIs2SkGk" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/3oEdva9BUHPIs2SkGk">via GIPHY</a></p>
+		</div>
 		<!-- javascript -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
@@ -244,6 +250,14 @@
 		function hideFurtherInfoForm() {
 			$('#further-info-card')[0].style.display = "none";
 			$('#further-info-form')[0].style.display = "none";
+		}
+
+		function showThankYou() {
+			$('#thankyou-div')[0].style.display = "block";
+		}
+
+		function hideThankYou() {
+			$('#thankyou-div')[0].style.display = "none";
 		}
 
 		function showQuestion(index, videoPath, options) {
@@ -358,6 +372,23 @@
 			// 1) hide
 			// 2) show preloader
 			// 3) hide preloader and show Thank you.
+			hideFurtherInfoForm();
+			showLoading();
+			doAJAX(
+				"POST",
+				API_SERVER_ENDPOINT + "/further",
+				JSON.stringify({
+					userId: USER_ID,
+					name: f.name.value,
+					email: f.email.value
+				}),
+				function(res) {
+					res = JSON.parse(res);
+					console.log(res);
+					hideLoading();
+					showThankYou();
+				}
+			);
 		}
 		</script>
 	</body>
