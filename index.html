@@ -9,6 +9,17 @@
 		<!-- for mobile -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>Survey</title>
+		<style>
+		#div-loading {
+			display:none;
+		}
+		#div-question {
+			display: none;
+		}
+		#further-info-card,#further-info-form {
+			display: none;
+		}
+		</style>
 	</head>
 	<body class='container'>
 		<h2>Survey</h2>
@@ -18,12 +29,23 @@
 		</p>
 		<div class="row">
 			<!-- xxx: DESCRIPTION AND PURPOSE -->
-			<div class="col s12">
+			<div class="col s12" id="description-and-purpose-card">
 				<div class="card blue-grey darken-1">
 					<div class="card-content white-text">
 						<span class="card-title">About 關於此實驗問卷</span>
-						<p>I am a very simple card. I am good at containing small bits of information.
-						I am convenient because I require little markup to use effectively.</p>
+						<p>
+						此份問卷是有關 9v 正在進行的機械手臂與情緒表達相關研究。<br />
+						因本問卷語言設定為中文，大多敘述皆以中文呈現，若您有語言理解上的困難或是特殊需求，請洽 <code>chengjovy83[AT]gmail.com</code><br />
+						<br />
+						本問卷一共有六題，每一題皆為「觀看影片後作答單一選擇題」。<br />
+						六部影片為快樂 (Happy)、難過 (Sad)、害怕 (Fear)、生氣 (Anger)、驚奇 (Surprise)、厭惡 (Disgust) 之機械手臂動作。<br />
+						<br />
+						請將影片對應到你覺得最適合的情緒選項並送出。<br />
+						切記：<br />
+						&nbsp;-&nbsp;影片出現順序為隨機。<br/ >
+						&nbsp;-&nbsp;情緒與影片的對應為一對一，無多餘亦無重複。<br />
+						&nbsp;-&nbsp;每題作答後，所選的情緒將不再出現在未來的題目選項中。<br />
+						</p>
 					</div>
 					<!--
 					<div class="card-action">
@@ -34,12 +56,17 @@
 				</div>
 			</div>
 			<!-- xxx: BASIC INFORMATION -->
-			<div class="col s12">
+			<div class="col s12" id="basic-info-card">
 				<div class="card blue lighten-5">
 					<div class="card-content brown-text text-darken-4">
 						<span class="card-title">Basic Info 基本資料</span>
-						<p>I am a very simple card. I am good at containing small bits of information.
-						I am convenient because I require little markup to use effectively.</p>
+						<p>
+						基於實驗數據分析，需要蒐集您的「年齡、性別、主修科目」三樣基本資料。<br />
+						您的資料將會是匿名儲存於資料庫中僅供學術用途，並且不會在未經過事先請求許可的情況下與任何個人、團體分享或是公開。<br />
+						輸入您的年齡、性別與主修科目後，即可開始作答。<br />
+						<br />
+						注：主修科目若無完全符合之項目，請選取最適合的即可。<br />
+						</p>
 					</div>
 					<!-- <div class="card-action">
 						<a href="#">Happy</a>
@@ -52,29 +79,14 @@
 				</div>
 			</div>
 			<div class="col s12">
-				<form>
+				<form id="basic-info-form">
 					<div class="input-field col s12 m4">
-						<select>
-							<option value="" disabled selected>Choose your age</option>
-							<option value="17">17-</option>
-							<option value="18">18</option>
-							<option value="19">19</option>
-							<option value="20">20</option>
-							<option value="21">21</option>
-							<option value="22">22</option>
-							<option value="23">23</option>
-							<option value="24">24</option>
-							<option value="25">25</option>
-							<option value="26">26</option>
-							<option value="27">27</option>
-							<option value="28">28</option>
-							<option value="29">29</option>
-							<option value="30">30+</option>
-						</select>
-						<label>Your Age</label>
+						<input id="text-input-age" name="age" type="number" class="validate">
+						<label for="text-input-age">Your Age</label>
+						<span class="helper-text" data-error="not a number" data-success="valid"></span>
 					</div>
 					<div class="input-field col s12 m4">
-						<select>
+						<select name="sex">
 							<option value="" disabled selected>Choose your sex</option>
 							<option value="1">Male</option>
 							<option value="2">Female</option>
@@ -83,92 +95,270 @@
 						<label>Your Sex</label>
 					</div>
 					<div class="input-field col s12 m4">
-						<select>
-							<option value="" disabled selected>Choose your age</option>
-							<option value="1">Option 1</option>
-							<option value="2">Option 2</option>
-							<option value="3">Option 3</option>
+						<select id='major-selector' name="major">
+							<option value="" disabled selected>Choose your major</option>
 						</select>
 						<label>Your Major</label>
 					</div>
+					<div class="input-field col s12 m4">
+						<a class="waves-effect waves-light btn" onclick="submitBasicInfoForm();"><i class="material-icons right">arrow_forward</i>Go 開始作答</a>
+					</div>
 				</form>
 			</div>
-			<!-- xxx: GO BUTTON -->
-			<!-- <div class="col 12">
-				<div>
-					<a class="waves-effect waves-light btn"><i class="material-icons right">arrow_forward</i>Go 開始作答</a>
+			<div class="center" id="div-loading">
+				<div class="preloader-wrapper big active">
+					<div class="spinner-layer spinner-blue-only">
+						<div class="circle-clipper left">
+							<div class="circle"></div>
+						</div>
+						<div class="gap-patch">
+							<div class="circle"></div>
+						</div>
+						<div class="circle-clipper right">
+							<div class="circle"></div>
+						</div>
+					</div>
 				</div>
-			</div> -->
+			</div>
 			<!-- xxx: Q1 -->
-			<div class="col s12">
+			<div class="col s12" id="div-question">
 				<div class="card teal lighten-5">
 					<div class="card-content brown-text text-darken-4">
-						<span class="card-title">Q1</span>
-						<p>I am a very simple card. I am good at containing small bits of information.
-						I am convenient because I require little markup to use effectively.</p>
+						<span class="card-title" id="question-number">Q1</span>
+						<p id="question-description">
+						請觀賞下方影片後，在下列選項中選出你覺得最適合的情緒。<br />
+						影片可重複觀看，次數不限。<br />
+						</p>
 						<p>&nbsp;</p>
-						<div class="video-container">
-							<iframe width="853" height="480" src="https://www.youtube.com/embed/MAjY8mCTXWk" frameborder="0" allowfullscreen></iframe>
+						<div class="video-container" id="question-video">
 						</div>
 						<p>&nbsp;</p>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
+						<form id='question-form'>
+							<div id="question-form-options">
+							</div>
+							<p>&nbsp;</p>
+							<a class="waves-effect waves-light btn" onclick="submitQuestionForm();"><i class="material-icons right">arrow_forward</i>Submit 送出</a>
+						</form>
 					</div>
 				</div>
 			</div>
-			<!-- xxx: Q2 -->
-			<div class="col s12">
+			<!-- Further Contact Info -->
+			<div class="col s12" id="further-info-card">
 				<div class="card blue lighten-5">
 					<div class="card-content brown-text text-darken-4">
-						<span class="card-title">Q2</span>
-						<p>I am a very simple card. I am good at containing small bits of information.
-						I am convenient because I require little markup to use effectively.</p>
+						<span class="card-title">Further 更多</span>
+						<p>
+						恭喜你，已經完成了所有問卷題目，9v 在此慎重的感謝你的付出。<br />
+						<br />
+						若您有興趣的話可以留下您的聯絡方式，我們將會視需求安排進一步訪談以了解您問卷中的回答以及其他想法。<br />
+						<br />
+						謝謝你的耐心，也特別感激你犧牲寶貴時間來完成這份問卷。<br />
+						</p>
 						<p>&nbsp;</p>
-						<div class="video-container">
-							<iframe width="853" height="480" src="https://www.youtube.com/embed/atGbcYTjZCY" frameborder="0" allowfullscreen></iframe>
-						</div>
-						<p>&nbsp;</p>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
 					</div>
 				</div>
 			</div>
-			<!-- xxx: Q3 -->
-			<div class="col s12">
-				<div class="card blue lighten-5">
-					<div class="card-content brown-text text-darken-4">
-						<span class="card-title">Q3</span>
-						<p>I am a very simple card. I am good at containing small bits of information.
-						I am convenient because I require little markup to use effectively.</p>
-						<p>&nbsp;</p>
-						<div class="video-container">
-							<iframe width="853" height="480" src="https://www.youtube.com/embed/gd38-X3HpbM" frameborder="0" allowfullscreen></iframe>
-						</div>
-						<p>&nbsp;</p>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
-						<a class="waves-effect waves-light btn">button</a>
-					</div>
+			<form id="further-info-form">
+				<div class="input-field col s12 m6">
+					<input id="text-input-name" name="name" type="text">
+					<label for="text-input-name">Your name 您的稱呼</label>
 				</div>
-			</div>
+				<div class="input-field col s12 m6">
+					<input id="text-input-email" name="email" type="email" class="validate">
+					<label for="text-input-email">Your email 電子郵件</label>
+					<span class="helper-text" data-error="invalid email address" data-success="valid"></span>
+				</div>
+				<div class="input-field col s12 m6">
+					<a class="waves-effect waves-light btn" onclick="submitFurtherInfoForm();"><i class="material-icons right">arrow_forward</i>Submit 送出</a>
+				</div>
+			</form>
 		</div>
 		<!-- javascript -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+		<script src="assets/js/college_major.js"></script>
+		<script src="assets/js/ajax.js"></script>
 		<script>
+		
+		// globals
+		var API_SERVER_ENDPOINT = "https://www.stevenlin.tw:6969/api";
+		var VIDEO_PREFIX = "http://9v.stevenlin.tw/survey/assets/videos/clipped/";
+		var VIDEO_SUFFIX = ".mp4";
+
+		var CURRENT_QUESTION_INDEX = null;
+		var USER_ID = null
+
 		function init() {
 			// some initialization
+			// 1) initialize major-selector
+			var major_selector = $('#major-selector')[0];
+			var groups = [];
+			for(var collegeKey in major.colleges) {
+				groups[collegeKey] = document.createElement('optgroup');
+				groups[collegeKey].label = major.colleges[collegeKey];
+				major_selector.appendChild(groups[collegeKey]);
+			}
+			for(var deptKey in major.departments) {
+				var e = document.createElement('option');
+				e.value = deptKey;
+				e.innerHTML = major.departments[deptKey];
+				groups[deptKey[0]].appendChild(e);
+			}
+			// 2) initialize all selector
 			$('select').formSelect();
+			// 3) initialize form submit
+			/*
+			$('#basic-info-form')[0].submit(function(evt) {
+				evt.preventDefault();
+				console.log(this);
+			});
+			*/
 		}
 		$(document).ready(function(){init();});
+
+		function showLoading() {
+			$('#div-loading')[0].style.display = "block";
+		}
+
+		function hideLoading() {
+			$('#div-loading')[0].style.display = "none";
+		}
+
+		function showBasicInfoForm() {
+			$('#description-and-purpose-card')[0].style.display = "block";
+			$('#basic-info-card')[0].style.display = "block";
+			$('#basic-info-form')[0].style.display = "block";
+		}
+
+		function hideBasicInfoForm() {
+			$('#description-and-purpose-card')[0].style.display = "none";
+			$('#basic-info-card')[0].style.display = "none";
+			$('#basic-info-form')[0].style.display = "none";
+		}
+
+		function showFurtherInfoForm() {
+			$('#further-info-card')[0].style.display = "block";
+			$('#further-info-form')[0].style.display = "block";
+		}
+		
+		function hideFurtherInfoForm() {
+			$('#further-info-card')[0].style.display = "none";
+			$('#further-info-form')[0].style.display = "none";
+		}
+
+		function showQuestion(index, videoPath, options) {
+			$('#question-number')[0].innerHTML = "Q" + (index + 1);
+			var videoHTML = ""
+			videoHTML = "<video width=\"320\" height=\"240\" controls=\"\">";
+			videoHTML += "<source src=\"" + VIDEO_PREFIX + videoPath + VIDEO_SUFFIX + "\" type=\"video/mp4\">";
+			videoHTML += "Your browser does not support the video tag.";
+			videoHTML += "</video>";
+			$('#question-video')[0].innerHTML = videoHTML;
+			$('#question-form-options')[0].innerHTML = "";
+			for(var k in options) {
+				var inputElement = document.createElement('input');
+				var spanElement = document.createElement('span');
+				inputElement.class = "with-gap";
+				inputElement.name = "answer";
+				inputElement.type = "radio";
+				inputElement.value = k;
+				spanElement.innerHTML = options[k];
+				var labelElement = document.createElement('label');
+				var pElement = document.createElement('p');
+				labelElement.appendChild(inputElement);
+				labelElement.appendChild(spanElement);
+				pElement.appendChild(labelElement);
+				$('#question-form-options')[0].appendChild(pElement);
+			}
+
+			$('#div-question')[0].style.display = "block";
+		}
+
+		function hideQuestion() {
+			$('#div-question')[0].style.display = "none";
+		}
+
+		function submitBasicInfoForm() {
+			console.log("submitting basic info form...");
+			var f = $('#basic-info-form')[0];
+			if(f.age.value === "" || f.sex.value === "" || f.major.value === "") {
+				alert("資料有誤，年齡、性別、主修皆為必填。（請填入最適合的答案）");
+				return;
+			}
+			// 1) hide
+			// 2) doAJAX()
+			// 3) show
+			hideBasicInfoForm();
+			showLoading();
+			doAJAX(
+				"POST",
+				API_SERVER_ENDPOINT + "/register",
+				JSON.stringify({
+					age: parseInt(f.age.value),
+					sex: f.sex.value,
+					major: f.major.value
+				}),
+				function(res) {
+					res = JSON.parse(res);
+					console.log(res);
+					CURRENT_QUESTION_INDEX = res.result.question_index;
+					USER_ID = res.result.userId;
+					hideLoading();
+					showQuestion(res.result.question_index, res.result.question_video, res.result.question_options);
+				}
+			);
+		}
+		function submitQuestionForm() {
+			console.log("submitting question form...");
+			var f = $('#question-form')[0];
+			if(f.answer.value === "") {
+				alert('請做出選擇後送出。');
+				return;
+			}
+			// 1) hide question
+			// 2) show preloader
+			// 3) doAJAX()
+			// 4) hide preloader and show: (a) another question or (b) further info form
+			hideQuestion();
+			showLoading();
+			doAJAX(
+				"POST",
+				API_SERVER_ENDPOINT + "/answer",
+				JSON.stringify({
+					userId: USER_ID,
+					question_index: CURRENT_QUESTION_INDEX,
+					answer: f.answer.value
+				}),
+				function(res) {
+					res = JSON.parse(res);
+					console.log(res);
+					if(res.result == null) {
+						hideLoading();
+						showFurtherInfoForm();
+					} else {
+						CURRENT_QUESTION_INDEX = res.result.question_index;
+						hideLoading();
+						showQuestion(res.result.question_index, res.result.question_video, res.result.question_options);
+					}
+				}
+			);
+		}
+		function submitFurtherInfoForm() {
+			console.log("submitting further info form...");
+			var f = $('#further-info-form')[0];
+			if(f.name.value === "" || f.email.value === "") {
+				alert("資料有誤，稱呼、電子郵件皆為必填。以確保聯絡得到您。");
+				return;
+			}
+			if(!f.email.classList.contains("valid")) {
+				alert("電子郵件有誤，請確認。");
+				return;
+			}
+			// doAJAX()
+			// 1) hide
+			// 2) show preloader
+			// 3) hide preloader and show Thank you.
+		}
 		</script>
 	</body>
 </html>
