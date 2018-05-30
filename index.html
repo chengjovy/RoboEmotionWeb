@@ -85,9 +85,10 @@
 			<div class="col s12">
 				<form id="basic-info-form">
 					<div class="input-field col s12 m4">
-						<input id="text-input-age" name="age" type="number" class="validate">
-						<label for="text-input-age">Your Age</label>
-						<span class="helper-text" data-error="not a number" data-success="valid"></span>
+						<select name="birthYear" id="birth-year-selector">
+							<option value="" disabled selected>Choose your birth year</option>
+						</select>
+						<label>Your birth year</label>
 					</div>
 					<div class="input-field col s12 m4">
 						<select name="sex">
@@ -134,7 +135,7 @@
 						影片可重複觀看，次數不限。<br />
 						</p>
 						<p>&nbsp;</p>
-						<div class="video-container" id="question-video">
+						<div class="" id="question-video">
 						</div>
 						<p>&nbsp;</p>
 						<form id='question-form'>
@@ -192,7 +193,7 @@
 		
 		// globals
 		var API_SERVER_ENDPOINT = "https://www.stevenlin.tw:6969/api";
-		var VIDEO_PREFIX = "http://9v.stevenlin.tw/survey/assets/videos/clipped/";
+		var VIDEO_PREFIX = "https://9v.stevenlin.tw/survey/assets/videos/clipped/";
 		var VIDEO_SUFFIX = ".mp4";
 
 		var CURRENT_QUESTION_INDEX = null;
@@ -213,6 +214,14 @@
 				e.value = deptKey;
 				e.innerHTML = major.departments[deptKey];
 				groups[deptKey[0]].appendChild(e);
+			}
+			// 2) initialize birth-year-selector
+			var birth_year_selector = $('#birth-year-selector')[0];
+			for(var i=1900; i<= 2018; i++) {
+				var optionElement = document.createElement('option');
+				optionElement.value = i.toString();
+				optionElement.innerHTML = i.toString();
+				birth_year_selector.appendChild(optionElement);
 			}
 			// 2) initialize all selector
 			$('select').formSelect();
@@ -289,6 +298,8 @@
 				$('#question-form-options')[0].appendChild(pElement);
 			}
 
+			$('video.responsive-video')[0].style.maxHeight = $(window).height() * 0.8 + "px";
+
 			$('#div-question')[0].style.display = "block";
 		}
 
@@ -299,7 +310,7 @@
 		function submitBasicInfoForm() {
 			console.log("submitting basic info form...");
 			var f = $('#basic-info-form')[0];
-			if(f.age.value === "" || f.sex.value === "" || f.major.value === "") {
+			if(f.birthYear.value === "" || f.sex.value === "" || f.major.value === "") {
 				alert("資料有誤，年齡、性別、主修皆為必填。（請填入最適合的答案）");
 				return;
 			}
@@ -312,7 +323,7 @@
 				"POST",
 				API_SERVER_ENDPOINT + "/register",
 				JSON.stringify({
-					age: parseInt(f.age.value),
+					birthYear: parseInt(f.birthYear.value),
 					sex: f.sex.value,
 					major: f.major.value
 				}),
