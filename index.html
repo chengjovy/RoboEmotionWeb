@@ -340,7 +340,8 @@
 		function submitQuestionForm() {
 			console.log("submitting question form...");
 			var f = $('#question-form')[0];
-			if(f.answer.value === "") {
+			var answer = $('input[name=answer]:checked', "#question-form").val();
+			if(answer == null || answer === "") {
 				alert('請做出選擇後送出。');
 				return;
 			}
@@ -356,7 +357,7 @@
 				JSON.stringify({
 					userId: USER_ID,
 					question_index: CURRENT_QUESTION_INDEX,
-					answer: f.answer.value
+					answer: answer
 				}),
 				function(res) {
 					res = JSON.parse(res);
