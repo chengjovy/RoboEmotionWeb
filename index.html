@@ -64,12 +64,11 @@
 					<div class="card-content brown-text text-darken-4">
 						<span class="card-title">Basic Info 基本資料</span>
 						<p>
-						基於實驗數據分析，需要蒐集您的「年齡、性別、主修科目」三樣基本資料。<br />
+						基於實驗數據分析，需要蒐集您的「年齡、性別、專業背景」三樣基本資料。<br />
 						您的資料將會是匿名儲存於資料庫中僅供學術用途，並且不會在未經過事先請求許可的情況下與任何個人、團體分享或是公開。<br />
-						輸入您的年齡、性別與主修科目後，即可開始作答。<br />
+						選擇您的出生年、性別並填入您的專業背景後，即可開始作答。<br />
 						<br />
-						注1：主修科目若無完全符合之項目，請選取最適合的即可。<br />
-						注2：若未就讀普通大專院校系所，請選擇「其他-&gt;未就讀普通大專院校學科」即可。<br />
+						注：若為在學學生且有特定專業系所，請填入系所名稱。若非學生請填入職業名稱或類別。尚未就讀大專院校以上之普通科學生請填入目前教育程度即可。（舉例 (1) 電機工程學系、(2) 小說作家、(3) 國中生）<br />
 						</p>
 					</div>
 					<!-- <div class="card-action">
@@ -86,13 +85,13 @@
 				<form id="basic-info-form">
 					<div class="input-field col s12 m4">
 						<select name="birthYear" id="birth-year-selector">
-							<option value="" disabled selected>Choose your birth year</option>
+							<option value="" disabled selected>選擇出生年</option>
 						</select>
 						<label>Your birth year</label>
 					</div>
 					<div class="input-field col s12 m4">
 						<select name="sex">
-							<option value="" disabled selected>Choose your sex</option>
+							<option value="" disabled selected>選擇性別</option>
 							<option value="1">Male</option>
 							<option value="2">Female</option>
 							<option value="3">Do not wish to disclose</option>
@@ -100,11 +99,17 @@
 						<label>Your Sex</label>
 					</div>
 					<div class="input-field col s12 m4">
+						<input id="text-input-major" type="text" name="major">
+						<label for="text-input-major">您的專業背景</label>
+					</div>
+					<!--
+					<div class="input-field col s12 m4">
 						<select id='major-selector' name="major">
-							<option value="" disabled selected>Choose your major</option>
+							<option value="" disabled selected>選擇專業背景</option>
 						</select>
 						<label>Your Major</label>
 					</div>
+					-->
 					<div class="input-field col s12 m4">
 						<a class="waves-effect waves-light btn" onclick="submitBasicInfoForm();"><i class="material-icons right">arrow_forward</i>Go 開始作答</a>
 					</div>
@@ -202,6 +207,7 @@
 		function init() {
 			// some initialization
 			// 1) initialize major-selector
+			/*
 			var major_selector = $('#major-selector')[0];
 			var groups = {};
 			for(var collegeKey in major.colleges) {
@@ -215,6 +221,7 @@
 				e.innerHTML = major.departments[deptKey];
 				groups[deptKey[0]].appendChild(e);
 			}
+			*/
 			// 2) initialize birth-year-selector
 			var birth_year_selector = $('#birth-year-selector')[0];
 			for(var i=1900; i<= 2018; i++) {
