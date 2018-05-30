@@ -68,7 +68,8 @@
 						您的資料將會是匿名儲存於資料庫中僅供學術用途，並且不會在未經過事先請求許可的情況下與任何個人、團體分享或是公開。<br />
 						輸入您的年齡、性別與主修科目後，即可開始作答。<br />
 						<br />
-						注：主修科目若無完全符合之項目，請選取最適合的即可。<br />
+						注1：主修科目若無完全符合之項目，請選取最適合的即可。<br />
+						注2：若未就讀普通大專院校系所，請選擇「其他-&gt;未就讀普通大專院校學科」即可。<br />
 						</p>
 					</div>
 					<!-- <div class="card-action">
@@ -173,6 +174,9 @@
 				</div>
 				<div class="input-field col s12 m6">
 					<a class="waves-effect waves-light btn" onclick="submitFurtherInfoForm();"><i class="material-icons right">arrow_forward</i>Submit 送出</a>
+					<!--
+					<a class="waves-effect waves-light btn" onclick="window.close();"><i class="material-icons right">close</i>Close 結束並關閉</a>
+					-->
 				</div>
 			</form>
 		</div>
@@ -198,7 +202,7 @@
 			// some initialization
 			// 1) initialize major-selector
 			var major_selector = $('#major-selector')[0];
-			var groups = [];
+			var groups = {};
 			for(var collegeKey in major.colleges) {
 				groups[collegeKey] = document.createElement('optgroup');
 				groups[collegeKey].label = major.colleges[collegeKey];
@@ -263,7 +267,7 @@
 		function showQuestion(index, videoPath, options) {
 			$('#question-number')[0].innerHTML = "Q" + (index + 1);
 			var videoHTML = ""
-			videoHTML = "<video width=\"320\" height=\"240\" controls=\"\">";
+			videoHTML = "<video class=\"responsive-video\" controls=\"\">";
 			videoHTML += "<source src=\"" + VIDEO_PREFIX + videoPath + VIDEO_SUFFIX + "\" type=\"video/mp4\">";
 			videoHTML += "Your browser does not support the video tag.";
 			videoHTML += "</video>";
