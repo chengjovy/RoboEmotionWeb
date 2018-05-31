@@ -38,7 +38,7 @@
 						<span class="card-title">About 關於此實驗問卷</span>
 						<p>
 						此份問卷是有關 9v 正在進行的機械手臂與情緒表達相關研究。<br />
-						因本問卷語言設定為中文，大多敘述皆以中文呈現，若您有語言理解上的困難或是特殊需求，請洽 <code>chengjovy83[AT]gmail.com</code><br />
+						因本問卷語言設定為中文，大多敘述皆以中文呈現，若您有語言理解上的困難或是特殊需求，請洽 <code>chengjovy83@gmail.com</code><br />
 						<br />
 						本問卷一共有六題，每一題皆為「觀看影片後作答單一選擇題」。<br />
 						六部影片為快樂 (Happy)、難過 (Sad)、害怕 (Fear)、生氣 (Anger)、驚奇 (Surprise)、厭惡 (Disgust) 之機械手臂動作。<br />
@@ -84,19 +84,19 @@
 			<div class="col s12">
 				<form id="basic-info-form">
 					<div class="input-field col s12 m4">
-						<select name="birthYear" id="birth-year-selector">
+						<select name="birthYear" id="birth-year-selector" class="browser-default">
 							<option value="" disabled selected>選擇出生年</option>
 						</select>
-						<label>Your birth year</label>
+						<!--<label>Your birth year</label>-->
 					</div>
 					<div class="input-field col s12 m4">
-						<select name="sex">
+						<select name="sex" class="browser-default">
 							<option value="" disabled selected>選擇性別</option>
-							<option value="1">Male</option>
-							<option value="2">Female</option>
-							<option value="3">Do not wish to disclose</option>
+							<option value="1">Male 男性</option>
+							<option value="2">Female 女性</option>
+							<option value="3">Do not wish to disclose 保密</option>
 						</select>
-						<label>Your Sex</label>
+						<!--<label>Your Sex</label>-->
 					</div>
 					<div class="input-field col s12 m4">
 						<input id="text-input-major" type="text" name="major">
@@ -104,7 +104,7 @@
 					</div>
 					<!--
 					<div class="input-field col s12 m4">
-						<select id='major-selector' name="major">
+						<select id='major-selector' name="major" class="browser-default">
 							<option value="" disabled selected>選擇專業背景</option>
 						</select>
 						<label>Your Major</label>
@@ -180,9 +180,7 @@
 				</div>
 				<div class="input-field col s12 m6">
 					<a class="waves-effect waves-light btn" onclick="submitFurtherInfoForm();"><i class="material-icons right">arrow_forward</i>Submit 送出</a>
-					<!--
-					<a class="waves-effect waves-light btn" onclick="window.close();"><i class="material-icons right">close</i>Close 結束並關閉</a>
-					-->
+					<a class="waves-effect waves-light btn" onclick="skipFurtherInfoForm();"><i class="material-icons right">close</i>Skip 略過並結束</a>
 				</div>
 			</form>
 		</div>
@@ -224,7 +222,7 @@
 			*/
 			// 2) initialize birth-year-selector
 			var birth_year_selector = $('#birth-year-selector')[0];
-			for(var i=1900; i<= 2018; i++) {
+			for(var i=2018; i>= 1900; i--) {
 				var optionElement = document.createElement('option');
 				optionElement.value = i.toString();
 				optionElement.innerHTML = i.toString();
@@ -282,6 +280,7 @@
 
 		function showQuestion(index, videoPath, options) {
 			$('#question-number')[0].innerHTML = "Q" + (index + 1);
+			$('#question-number')[0].innerHTML += " / 6";
 			var videoHTML = ""
 			videoHTML = "<video class=\"responsive-video\" controls=\"\">";
 			videoHTML += "<source src=\"" + VIDEO_PREFIX + videoPath + VIDEO_SUFFIX + "\" type=\"video/mp4\">";
@@ -412,6 +411,11 @@
 					showThankYou();
 				}
 			);
+		}
+		function skipFurtherInfoForm() {
+			console.log("skipping further info form...");
+			hideFurtherInfoForm();
+			showThankYou();
 		}
 		</script>
 	</body>
