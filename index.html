@@ -282,7 +282,7 @@
 			$('#question-number')[0].innerHTML = "Q" + (index + 1);
 			$('#question-number')[0].innerHTML += " / 6";
 			var videoHTML = ""
-			videoHTML = "<video class=\"responsive-video\" controls=\"\">";
+			videoHTML = "<video class=\"responsive-video\" controls=\"\" webkit-playsinline playsinline>";
 			videoHTML += "<source src=\"" + VIDEO_PREFIX + videoPath + VIDEO_SUFFIX + "\" type=\"video/mp4\">";
 			videoHTML += "Your browser does not support the video tag.";
 			videoHTML += "</video>";
