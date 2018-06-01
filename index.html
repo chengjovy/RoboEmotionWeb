@@ -327,6 +327,7 @@
 			// 3) show
 			hideBasicInfoForm();
 			showLoading();
+			/*
 			doAJAX(
 				"POST",
 				API_SERVER_ENDPOINT + "/register",
@@ -344,6 +345,24 @@
 					showQuestion(res.result.question_index, res.result.question_video, res.result.question_options);
 				}
 			);
+			*/
+			$.ajax({
+				contentType: "application/json",
+				data: JSON.stringify({
+					birthYear: parseInt(f.birthYear.value),
+					sex: f.sex.value,
+					majoy: f.major.value}),
+				error: (xhr, status, err) => {console.log(status);},
+				success: (res, status, xhr) => {
+					console.log(res);
+					CURRENT_QUESTION_INDEX = res.result.question_index;
+					USER_ID = res.result.userId;
+					hideLoading();
+					showQuestion(res.result.question_index, res.result.question_video, res.result.question_options);
+				},
+				type: "POST",
+				url: API_SERVER_ENDPOINT + "/register"
+			});
 		}
 		function submitQuestionForm() {
 			console.log("submitting question form...");
@@ -359,6 +378,7 @@
 			// 4) hide preloader and show: (a) another question or (b) further info form
 			hideQuestion();
 			showLoading();
+			/*
 			doAJAX(
 				"POST",
 				API_SERVER_ENDPOINT + "/answer",
@@ -380,6 +400,28 @@
 					}
 				}
 			);
+			*/
+			$.ajax({
+				contentType: "application/json",
+				data: JSON.stringify({
+					userId: USER_ID,
+					question_index: CURRENT_QUESTION_INDEX,
+					answer: answer}),
+				error: (xhr, status, err) => {console.log(status);},
+				success: (res, status, xhr) => {
+					console.log(res);
+					if(res.result == null) {
+						hideLoading();
+						showFurtherInfoForm();
+					} else {
+						CURRENT_QUESTION_INDEX = res.result.question_index;
+						hideLoading();
+						showQuestion(res.result.question_index, res.result.question_video, res.result.question_options);
+					}
+				},
+				type: "POST",
+				url: API_SERVER_ENDPOINT + "/answer"
+			});
 		}
 		function submitFurtherInfoForm() {
 			console.log("submitting further info form...");
